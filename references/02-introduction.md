@@ -3,8 +3,8 @@
 ## 目录
 1. 研究主题的边界
 2. Introduction 四/五段叙事结构
-3. 三个挑战的写法
-4. 四项贡献
+3. 系统挑战的提取
+4. 贡献的组织与边界
 5. 摘要与结论
 6. 常见错误/审查问题
 
@@ -27,7 +27,7 @@
 | P2 技术引入 | 为什么考虑 UAV-assisted MEC？ | 快速部署、按需覆盖、靠近 UD 的计算能力；转折：UAV 能源、载荷、覆盖、机动成本或协调瓶颈（仅写实际系统中存在的限制） |
 | P3 场景系统挑战 | 为什么充分发挥其优势仍然困难？ | 从系统级动态性、异构节点、任务重要性/资源稀缺、耦合决策、局部观测等**有事实依据的特征**中提取 2–3 点 |
 | P4 方法动机 | 为什么本文研究路径合理？ | 用一段从挑战引到共同优化方向；如果引入 DRL，解释其适应动态、多节点协同的动机，但不应把 Introduction 的系统挑战写成 actor/critic/policy/具体 reward 更新过程 |
-| P5 贡献与文章安排 | 我们具体做了什么，读者往下看什么？ | 四项贡献（架构、优化问题、算法、实验）；末尾独立写组织安排（可简洁） |
+| P5 贡献与文章安排 | 我们具体做了什么，读者往下看什么？ | 从架构、优化问题、算法、实验四个维度核对实际贡献，按创新合并或拆分；末尾说明文章安排 |
 
 P1 典型大到小的结构：`disaster-affected environment → delay-sensitive computing needs → conventional MEC advantage → failure mode of infrastructure-dependent MEC → UAV-assisted MEC as a direction`。
 
@@ -39,7 +39,7 @@ P1 典型大到小的结构：`disaster-affected environment → delay-sensitive
 
 ## 3. 重点：System Challenges 与 Algorithmic Challenges 不同
 
-Introduction：**系统/场景层**。算法 Motivation：**优化问题求解层**。同一事实可以分别转述，但焦点必须变化。
+Introduction 的挑战段侧重**系统/场景层**；Problem Analysis 解释这些特征带来的数学困难或可利用结构；Algorithm Motivation 解释**求解设计选择**。同一事实可以分别转述，但焦点必须变化，避免三处重复。引言后续的方法概述可以简述算法名与作用，不应按关键词机械删除正常的方案介绍。
 
 | Introduction 合适写法 | Algorithm Motivation 才合适写法 |
 | --- | --- |
@@ -48,15 +48,17 @@ Introduction：**系统/场景层**。算法 Motivation：**优化问题求解�
 | 用户任务紧急程度不同，资源竞争会影响关键任务及时完成 | 奖励函数如何权衡优先级、时延、成本，如何设计约束处理机制 |
 | 部分节点只能获取有限的实时局部信息 | 具体 MARL/CTDE 训练设置、action/state/policy 设计 |
 
-### 挑战提取的三种路径（择其一，不能拼贴）
+### 挑战提取的三种路径（可组合，保持层级一致并去重）
 
-1. **按三个创新点**：某项架构缺口、某项目标与决策耦合、某种自适应/实时性需求。
-2. **按算法章节的三个求解难点**：回溯每项难点对应的真实系统特性，把 action、policy、convergence 等词在 Introduction 中退回为“资源、动态和服务协调问题”。这是组内常用写法，Qin 论文可参考。
+1. **按实际创新点**：某项架构缺口、某项目标与决策耦合、某种自适应/实时性需求。
+2. **按算法章节的求解难点**：回溯每项难点对应的真实系统特性，在挑战段解释资源、动态和服务协调问题，避免仅列 action、policy、convergence。不能从“采用了 DRL”倒推系统必然需要长期决策。
 3. **按联合决策**：卸载选择/比例、资源分配、轨迹/区域分配如何相互影响；不应把变量名列表冒充真正的挑战，要说明物理冲突和后果。
 
 不要为“凑三个挑战”编造系统不存在的“局部观测”或“高度动态”；需要证据时先查模型与部署前提。难以概括时，**留待系统模型和算法框架稳定后回写 Introduction**，不是随意先编。
 
-## 4. Contributions 四项并列，长度与信息密度大体均衡
+## 4. Contributions：检查覆盖维度，按真实创新组织条目
+
+下面四类是组内常用的覆盖检查维度，不是四个必填创新点。标准架构、标准建模或例行仿真可以服务某项贡献，不必各自声明为独立创新；Qi 和 Xing 的组织方式也不同，见 [案例](09-case-studies.md)。
 
 建议使用组内 Title Case 加粗标签：
 
@@ -79,7 +81,7 @@ Introduction：**系统/场景层**。算法 Motivation：**优化问题求解�
 \end{itemize}
 ```
 
-- **Problem Formulation** 写构建的目标/变量/约束问题；“MINLP”是问题的一种数学**性质**，不能代替描述性名称。示例：`UD cost minimization optimization problem (UCMOP)`（仅可借鉴命名方式，不复用名称给不同问题）。
+- **Problem Formulation** 写构建的目标/变量/约束；“MINLP”只是数学性质，不能代替问题内容。描述性名称可帮助辨认，但不强制造 `XXXOP` 简称，也不禁止 P1/P2 编号。
 - **Algorithm Design** 在总算法名称与内部组件之间建立“包含—组成”的关系，不只是堆三种算法名字。
 - **Performance Evaluation** 不在 Contributions 中枚举所有 benchmarks；说核心验证点和实际结果。无结果可核实则留占位。
 - 按实际创新决定四项是否都成立；任务书一般四方面最清晰，但不能把标准仿真框架吹成全新算法。
@@ -106,9 +108,9 @@ Introduction：**系统/场景层**。算法 Motivation：**优化问题求解�
 - [ ] 首段首先交代应用需求，而不是直接介绍某种已有技术。
 - [ ] 主场景名称已定、含义准确、没有 emergency/post-disaster 意义混淆。
 - [ ] MEC → UAV-assisted MEC 每次引入均有具体约束和因果连接。
-- [ ] Intro 挑战集中于系统需求/特性，没有提前出现 actor、critic、policy update、convergence 等求解层概念。
-- [ ] 三个挑战和贡献均能在系统模型/问题/算法中找到证据。
-- [ ] Contributions 用并列加粗 Title Case 标签，四项长度相对平衡，问题名为内容性简称，实验不罗列一堆基线。
+- [ ] 挑战段解释系统需求/特性，后续方法概述与算法细节层级清楚。
+- [ ] 所有已提出的挑战和贡献都能在模型/问题/算法及适当证据中找到对应。
+- [ ] 实际贡献条目平行、信息充分；加粗 Title Case 依模板采用；问题内容明确，实验贡献不罗列全部基线。
 - [ ] Remainder 准确描述真实章节次序，未照抄参考论文编号。
 
 **原批注对应**：1–4、11–13、24、W-02；相关资料：组内写作笔记 Introduction 页、Qin/Qi 论文 Abstract/Introduction。

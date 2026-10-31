@@ -1,113 +1,79 @@
-# 参考论文与组内资料：借鉴写作结构，不照搬研究内容
+# 参考论文：抽取章法、核对依赖，不复制研究内容
 
-## 目录
-1. 案例定位与使用边界
-2. Qin / User-Centric Cost Optimization
-3. Qi / Space-Air-Sea Maritime Search and Rescue
-4. 组内手册/笔记/批注的交叉验证
-5. 如何比较参考写法与自己的论文
+## 1. 来源与版本边界
 
-## 1. 来源与适用边界
+本文件提炼用户提供的组内论文，用于结构比较和方法论证，不证明当前稿件的模型、推导或实验成立。参考稿也可能存在错误；只借鉴组织方式，不复制原句、公式结论或性能数值。
 
-以下是本 Skill 创建时读过的**用户提供原始材料**的“写法索引”，不是新增检索的文献，更不是当前 `manuscript.tex` 的数学正确性验证：
+先确认题名、版本、章节定位，以及 PDF、TeX、附录和译文是否匹配。中文译文辅助阅读，科学事实以匹配版本的原文为准。以下定位对应本次资料快照，后续修订后应按章节和标签重新定位。
 
-1. Weihong Qin et al., *User-Centric Cost Optimization for Integrated Space-Air-Ground Edge Computing Systems*（用户附件，PDF 约 18 页）：SAGIN-MEC、UCMOP、MADDPG-COCG；属于**结构/混合决策算法写法**的重要范例。
-2. Jia Qi et al., *Space-Air-Sea Integrated Multi-Access Edge Computing for Maritime Search and Rescue*（用户附件，PDF 约 17 页）：SASIMEC、DMOP、LPPO-COPG；属于**救援场景叙事/架构到问题的递进**范例。
-3. 《写作大纲参考 - JLU MCNS LAB》：Introduction、Related Work、System/Problem/Algorithm/Simulation 的常见大纲；其具体交通/LLM 实验是其他论文示例，**不要移植到 UAV 救援论文中**。
-4. 《写作方法与共性问题 - JLU MCNS LAB》：组内常见语法、变量、图表、Related Work 组织方式与场景级挑战注意事项。
-5. 《科技论文写作笔记.pptx》：系统模型、公式、证明、仿真写作和 Introduction/Contributions 的思路示意。
-6. 《论文必查清单.md》：一致性、格式、引用、变量、图/表、参考文献、Acknowledgment 最终复核。
-7. 师姐逐条批注 1–38、微信 W-01–W-03 与 1h+ 会议转写：包括 CORA-MADDPG 的原稿特定反馈。**转写中一些具体算法顺序/节点细节仍需作者核实**。
+| 案例 | 本次依据 | 版本注意事项 |
+| --- | --- | --- |
+| Qin：*User-Centric Cost Optimization for Integrated Space-Air-Ground Edge Computing Systems* | 同名 PDF，18 页；`Qin/original_page_blocks.json` 的带页码英文提取文本 | PDF SHA256 为 `56c75fbd9995a940ccc6ffed4f618b69ef9c52c53b66dd2c58e76107b01f5c34`，已核对与提取来源一致。这里只分析章法，复杂公式仍需核原页 |
+| Qi：*Space-Air-Sea Integrated Multi-Access Edge Computing for Maritime Search and Rescue* | `TMC_Maritime_Rescue_in_UAV_assisted_Edge_Computing_Qi_Jia/manuscript-V7.tex` | 本次执行顺序依据 V7 正文及伪代码，不把旧 PDF 页码当作此版本的定位 |
+| Xing：*QoE Maximization for Space-Air-Sea Integrated MEC via Generative Deep Reinforcement Learning and Convex Optimization* | `QoE_Maximization_for_SASIMEC_Xing_Yaxin/manuscript.tex`；同目录 `Appendices.tex` | 主文第 118 行与附录第 60 行题名略不同。可对照推导组织，不能仅凭同目录认定所有版本已同步 |
 
-论文/资料来自用户上传，因此本文内部提及“参考 PDF 第 X 页”用于找写作模式；必要时重新打开原始 PDF 校验页码、公式或真实引用。**不要把两个案例相互混为同一个系统**：Qin 含 ground-air-space 与卫星转发到云端；Qi 是 maritime sea-air-space，USV/UAV/LEO 的任务与计算位置不同，当前用户论文的高空控制 UAV 又可能不同。
+**Qin 的已知版本陷阱**：`TMC_SAGIN_MEC_Qin_Weihong_V6/manuscript-V1.tex` 第 112 行题名是 *Cost Minimization for Space-Air-Ground Integrated Multi-Access Edge Computing Systems*。`Qin/阅读说明.md` 明确它是不同版本旧 TeX。不可把其行号与上表 PDF 的页码、公式或结论混合引用。
 
-## 2. 案例 A：Qin 的写法逻辑
+原始论文和笔记不随本 skill 分发；逐式复核时需访问对应资料。Qin 的卫星转发、Qi 的 USV/卫星计算、Xing 的 MIoTD/云端访问不能互换；当前作者的控制 UAV、优先级和新算法也不能从这些案例自动补入。
 
-### Introduction（PDF 第 1–2 页）
+## 2. Qin：混合决策的解释与验证
 
-LAE 应用驱动 → UAV-assisted MEC 的优势与局限 → SAGIN-MEC 融合的必要性 → 三个系统级挑战（高度动态、异构节点协同、部分可观测与混合/变维决策）→ MADRL + 确定性优化的方案 → 四项贡献。
+| 部分与定位 | 可借鉴结构 | 适用前提与边界 |
+| --- | --- | --- |
+| Introduction，PDF 第 1–2 页 | 应用需求 → UAV-MEC 能力边界 → 融合架构 → 系统挑战 → 方法概述与贡献 | 当架构确实回应应用瓶颈时使用。挑战源于系统；挑战后可概述方法，不必禁止 Intro 出现算法名称 |
+| Related Work，Section 2，第 2–4 页 | 架构、联合优化问题、求解方法三个视角；每节组织代表工作、比较与 gap | 适合贡献覆盖这些维度的论文。gap 由实际相关工作支持，不照搬“现有方法均无法……”的结论 |
+| System/Problem，Sections 3–4 | 总览与基础模型 → 通信/计算/成本 → 目标、变量和约束 → 难点分析 | 按本研究依赖安排模型；问题名、MINLP 性质、非凸性和 NP-hard 主张分别核验 |
+| POMG 与 MADDPG，Sections 5.2.3–5.3，第 8–9 页 | 先定义完整联合决策，分析其性质，再明确学习动作子集和确定性求解部分 | 适合部分变量学习、部分变量由求解器给出的方法；须说明动作映射及环境执行，不能只在前后删掉变量 |
+| 算法汇总，Section 5.5，第 12 页 | 策略与外部求解形成联合决策 → 执行/经验 → 网络更新；分开训练与部署 | 分布式、局部信息和信令负担需要自身假设支持，不因采用 CTDE 就自动成立 |
+| 仿真，Section 6，第 13–16 页 | 默认性能 → 收敛与效率 → 系统参数；展示用户收益和 UAV 能耗代价 | 各图验证不同主张；一次训练曲线不能证明理论收敛或跨分布泛化 |
 
-可借鉴：挑战**由系统特性而来**，不是单纯“我们选择 MADDPG 很难”；算法 Motivation 再讲实现/求解挑战。
+第 12 页 Remark 4 讨论分解与性能损失，可借鉴其说明方法边界的做法。**子问题最优、博弈稳定、整体经验有效、全局最优是不同结论**；参考文对可行性的说明不替代当前方法的原约束检查。
 
-### Related Work（PDF 第 2–4 页，Section 2）
+第 14–15 页分别讨论 actor 时延、COCG 迭代与求解时延，可用于设计混合算法效率报告。实时性仍需结合自己的硬件、时隙预算与端到端执行流程判断。
 
-明确的综述开头。分：`MEC Architecture` → `Formulation of Joint Optimization Problems` → `Optimization Approach`；架构小节从 UAV-enabled 到 satellite-enabled 再到集成架构，每段示例后写 limitations，末段归纳 gap。
+## 3. Qi：场景需求驱动的叙事
 
-可借鉴：通过维度整理文献，不要把一篇论文的系统/目标/算法全部挤到每个子节里。章节标题和稿件自己的贡献一一对齐。
+依据 `manuscript-V7.tex`：
 
-### System Model（PDF 第 4–7 页，Section 3）
+- **Introduction，第 115–126 行**：救援时效与基础设施条件 → USV 计算需求 → MEC/UAV 的作用及边界 → 融合架构 → 系统挑战 → 方法引出。适合需求明确的应急论文；海况、USV 移动和卫星计算事实不可迁移到地面场景。
+- **Related Work，子节从第 145、154、166 行开始**：救援通信、边缘计算架构、优化方法。分类可以随研究主线变化，不必一律采用 Qin 的三分法。
+- **System/Problem，第 184–469 行**：模型与问题合章；目标、决策、成组约束、逐项解释和难点分析形成过渡。适合依赖紧密且篇幅允许的稿件，合章与分章均可。
+- **Motivation 与 MDP，第 483–527 行**：解释长时决策、学习稳定性及混合/变规模决策困难，再说明 LPPO 与 COPG 分工。学习动作与全部变量不相同时，解释简化过程。
+- **贡献，第 129–135 行**：问题建模与算法合为一条贡献；不要机械要求所有论文都有四项贡献。
 
-`3.1 System Model`（`3.1.1 System Overview`、`3.1.2 Basic Models`）→ `3.2 Communication Model` → `3.3 Computation Model`。基本模型中分别放 UD/UAV mobility、UD/Task 及 satellite state 等，通信与计算分为独立并列层。
+该稿 Section 4 标为 MDP/LPPO，不得改称 Qin 的 POMG/MADDPG。可观测性、记忆机制是否必要及决策是否分布式，仍由当前系统的信息可得性决定。
 
-可借鉴：系统图先总述、按层解释，然后介绍时间离散化。部分卸载比例放在 Computation 的适当位置，并沿不同执行路径展开成本。
+## 4. Xing：改造基础算法并连接解析子问题
 
-### Problem Formulation（PDF 第 7 页左右，Section 4）
+依据 `manuscript.tex`，适用于学习器有多个改进模块、又结合外部求解器的论文：
 
-先明确通过联合优化 task offloading ratio、UAV trajectory、CPU resource、UD association 最小化 UD cost；统一给 P 目标与子约束 (22a–22i)，随后逐条解释各类资源/时延/能耗/位置约束，再分析困难。
+| 定位 | 写法模式 | 复用时的核查 |
+| --- | --- | --- |
+| 第 603、607、613 行 | 分别解释序贯决策、策略表达/探索、条件凸资源子问题为何需要不同模块 | 每个模块对应明确困难，避免只罗列 TD3、diffusion、UCB、KKT；不把这些模块设为必选 |
+| 第 681–683、760–762、941–943 行 | 基础算法 → diffusion actor 的作用 → ensemble/UCB 的作用 | 说明相对基础算法修改了哪些输入、输出、更新和调用；通用介绍只保留理解改动所需内容 |
+| 第 1017–1060 行及附录 A/B | 固定卸载与轨迹 → 资源子问题 → 条件凸性 → KKT 解 → 正文结论、附录推导 | 核查原约束如何保留、消除或另行处理，以及定义域、空任务集合和分母；不因移植闭式解宣布整体最优 |
+| 第 1074、1126–1193 行 | 正文对应伪代码：候选生成、选择、资源求解、执行、经验存储、网络更新 | 正文、框图和伪代码须属于同一版本，不照抄行号或更新公式 |
+| 第 1200–1204 行 | 分开训练与部署，逐项计算实际调用模块开销 | 多候选、去噪步数、ensemble、外部求解器均可能影响成本；部署未执行的探索模块不强行计入 |
+| 第 1293–1299、1374–1380 行 | 策略替换基线与 DRL 对比分组；同时观察 reward 和系统指标 | 最近卸载、等分算力、固定轨迹验证决策作用；整体比较不足以单独验证每个网络创新 |
+| 第 1305–1307 行 | 区分每时隙聚合 cost 与按用户平均的 delay/energy | 用户数改变时总和上升不等于单用户性能恶化；指标、reward 与目标的统计口径需可解释 |
+| 第 1417–1433 行 | 根据性能和计算负担解释超参数选择 | 需要真实实验；调参不替代模块消融，也不保证跨场景可迁移 |
 
-可借鉴：数学**问题的名字与约束意义**比把它叫 MINLP 更重要；能耗与 deadline 不应忘掉。
+**证据边界**：若贡献分别声称提高表达能力和探索效率，应考虑分别去除/替换模块、保持其余设置一致的实验。缺少时限制机制结论；整体方法表现更好不等于每项改动的因果收益已证明。
 
-### Algorithm（PDF 第 8–12 页，Section 5）
+## 5. 执行顺序对照：标题顺序不是数据流
 
-Motivations → POMG 定义（state/observation/action/reward）→ POMG Analysis 识别 hybrid 和 varying-dimensional 决策 → MADDPG 处理任务卸载比和轨迹连续决策 → COCG 处理分配和关联 → Algorithm 汇总与复杂度。
+| 已核验案例 | 正文/伪代码位置 | 该版本写出的时隙流程 |
+| --- | --- | --- |
+| Qi V7 | 第 1004–1005、1037–1043 行 | COPG 得资源与卸载 → actor 得轨迹 → 联合执行 → reward/next state |
+| Xing | 第 1074、1145–1178 行 | actor 生成候选 → UCB 选动作 → KKT 分资源 → 联合执行 → reward/next state |
+| Qin 正确 PDF | Sections 5.2.3–5.3、5.5.1 | 完整决策与学习动作分开说明；执行融合策略输出和 COCG 结果后产生经验 |
 
-特别重要的写法（源论文中确有）：**POMG 原联合动作集合包含四类决策，而后续通过分析重新定义学习动作子集**。所以当前用户论文若也有“部分学、部分求解器算”的做法，须解释 full decision vs learned action/derived decision 的转换。
+这些顺序只反映来源版本的描述，**不构成当前算法应采用哪种顺序的建议**。审稿时列出模块输入何时可得、使用当前还是更新后位置、资源是否需重算。若公式、正文与伪代码不一致，先定位冲突和时间尺度，不自行替作者选择顺序。
 
-### Simulation（PDF 第 13–16 页，Section 6）
+## 6. 怎样用于当前稿件
 
-Setup（场景/参数/benchmarks/metrics）→ Algorithm Performance → Convergence & Efficiency → Impact of System Settings（UD 数量/任务大小/算力等）→ 可选 trajectory。默认性能图与收敛图均作较充分的机制解释，并讨论 UAV/UD 能耗的权衡。
-
-可借鉴：不同图验证不同内容，不能一个图半段、另一个图三段而没有科学理由。实验“实时性”涉及推理时延和外部资源算法时延两个部分。
-
-## 3. 案例 B：Qi 的写法逻辑
-
-### Introduction（PDF 第 1–2 页）
-
-从 maritime rescue 的高度时间敏感性与基础设施稀缺出发，讲 USV 实时计算需求，再写 conventional MEC 的覆盖限制 → UAV-mounted MEC 的灵活性及航时约束 → space-air-sea 融合必要性 → challenges → LPPO-COPG。
-
-可借鉴：特别适合本用户 Intro 的“**先救援，后 MEC，再 UAV**”逻辑；但 Maritime/USV 的具体事实不可直接移植到地面 UD 场景。
-
-### Related Work（PDF 第 2–4 页，Section 2）
-
-`Maritime Search and Rescue Communications` → `Edge Computing Architecture` → `Optimization Approaches`。篇章从通信覆盖到计算资源，再到优化方法，**是与论文真实贡献一致的另一种合理组织**，不是 Qin 三分法的唯一替代。
-
-可借鉴：先判断自己的 novelty 着重通信、MEC 架构、模型还是优化问题，再决定相关工作该怎样分。
-
-### System 与 Problem（PDF 第 4–7 页，Section 3）
-
-`3.1 System Model` → `3.2 Communication` → `3.3 Computing` → `3.4 Problem Formulation and Analysis`。同一章中完成模型到问题的过渡。目标为 DMOP（总服务时延最小化），联合 UAV trajectory、bandwidth and computing allocation、task offloading。
-
-可借鉴：模型和问题可以合章，但过渡必须明确；成组约束和各自解释均不能省。
-
-### Algorithm（PDF 第 7–12 页，Section 4）
-
-先 Motivation，随后 MDP 的各个要素；对联动/混合决策进行分析，再将学习的轨迹动作和外部优化的资源/卸载策略分开，最终汇成 LPPO-COPG。理论部分有关于子问题的推导与分工。
-
-可借鉴：要先解释“为何拆分”，再引入“如何拆分”，还要把外部求解结果回到整体目标中。需要注意 Qi 的方法是 MDP/LPPO，不可误称 MADDPG/POMG。
-
-### Simulation（PDF 第 12–16 页，Section 5）
-
-先模型配置与 benchmark，再给默认性能图（完成率、时延、不同节点能耗），收敛/稳定性，然后系统参数敏感性；解释性能提升伴随的 UAV 能耗变化。
-
-可借鉴：图分析包括 trade-off，而不是只挑“优势”指标。
-
-## 4. 手册与批注的交叉验证
-
-| 命题 | 组内资料/师姐意见 | 案例位置 | 在用户原稿中怎么用 |
-| --- | --- | --- | --- |
-| Introduction 先描述背景需求和系统挑战 | 写作笔记 Introduction；批注 1 | Qi Introduction；Qin Introduction | 用本文真实灾后/应急任务代替海上/LAE 事实 |
-| Related Work 按架构/目标/算法分方向 | 共性问题第 2 页；批注 5–9 | Qin Section 2，Qi Section 2 的变体 | 一节一个视角，有主题句与 gap |
-| 模型先总览、基础/通信/计算再问题 | 写作笔记 System Model；批注 10–22 | Qin Section 3–4；Qi Section 3 | 控制 UAV 与服务 UAV 角色先说明 |
-| DRL 壳内模块必须有明确依赖 | W-01；会议 00:50–01:08 | Qin Section 5；Qi Section 4 | 确认区划、actor、CPU 优化、最终 reward 依赖 |
-| 段落/公式不能裸列、需引入与解释 | 共性问题第 3、9 页；批注 16–17、21、29 | 两篇模型和问题章节 | 多公式按“总式→组成”改写 |
-| 实验默认指标→收敛→系统设置 | 写作笔记仿真部分；批注 36–37 | Qin Section 6；Qi Section 5 | 指标与贡献一一映射，不机械照搬图号 |
-
-## 5. 最有效的参考方法
-
-1. **先列本文自己的模型事实**：节点、场景、决策、约束、算法模块、实验指标；没输入不要凭论文截图复制科学主张。
-2. **找同类型论文的对应段落**：比如 Intro 背景段、System Overview 总分段、Problem Constraints 解释段、Algorithm Analysis 段、图 3 解释段。
-3. **抽出结构**：主题句类型、证据排序、过渡、结论的作用，不采集成片原句。
-4. **用自己的变量/数学模型重写**，再查来源/术语/标签/各章交叉一致性。
-5. **标明不适用项**：Qin 的 satellite relay、Qi 的 maritime USV、用户高空控制 UAV 不能随意互换。
-
-**重要**：这些参考 PDF/手册并非自动永久随 ZIP 携带；本 ZIP 仅内置提炼后的规则。若需要逐式对照其数学推导，请在新对话重新提供 PDF 或可访问的资料。
+1. 先列当前版本的场景、节点、变量、约束、模块及实验证据，再选择相似的写作功能。
+2. 抽取“需求 → 优化困难 → 方法职责 → 验证证据”的关系，不照搬章节数量、句子或研究设定。
+3. 区分现有结论与新增主张：旧稿批注、会议建议和参考论文都不是当前方法已实现或已验证的证据。
+4. 对照 [算法审查](05-algorithm.md) 核输入输出、执行时间、原约束和最优性范围；对照 [实验审查](06-simulation.md) 核公平性、消融粒度、归一化及训练/测试方式。
+5. 采用参考结构后，检查摘要、贡献、模型、正文、伪代码、图表和附录是否相互支持。参考稿疑点用于提醒核查，不传播为“组内标准答案”。

@@ -58,6 +58,9 @@ The corresponding energy consumption is ... .
 - `task offloading ratio`、`resource allocation`、`UAV trajectory planning` 等术语和名词短语形式统一；不在没有定义的情况下交替用 `strategy`、`decision`、`policy`、`action` 指不同层级。
 - 变量介绍谓语可用 `denotes/represents/indicates` 适度变化，但物理含义必须一贯。
 
+- 同类物理量可共用主符号，用下标区分对象，例如位置用不同下标的 `q`；不是每个实体都必须另造字母。语义或单位不同的量不能为形式统一而强行合并。
+- 单位表与公式必须相容：数据量用 byte、速率用 bit/s 时需显式统一或说明转换；dB/线性功率亦然。不以“读者懂常识”为由省掉决定结果的换算。（M2 00:14:05、00:19:00、00:34:32）
+
 ## 4. IEEE 论文英语的常见微问题
 
 | 错误样式 | 问题 | 更清楚的做法 |
@@ -82,6 +85,8 @@ The corresponding energy consumption is ... .
 - `Specifically`：细化上句的**整体**；`Moreover`：**同主题并列**补充；`However`：真正对立/限制；`Therefore`：能逻辑推出的结果。
 - 不为了让每段“有连接词”而滥用。新章节开头更需要一个**说明该节做什么的主题句**。
 
+精确修改 `it/this/there/the weights` 等指代不清之处；有明确先行词的代词、所有格和分词无需禁用。分号不是 AI 文本的判定依据，技术术语也不能仅为查重而换成不准确近义词。（M2 00:04:34、00:19:52、00:33:54 的条件化提炼）
+
 ## 5. 图表和引文
 
 - 图片/表格首次引用在出现前或邻近位置：`As illustrated in Fig.~\ref{fig:system}, ...`。
@@ -90,6 +95,8 @@ The corresponding energy consumption is ... .
 - 适当使用 `\linewidth` 而非盲目 `\textwidth`（单栏 figure 后者可能过宽），必要时调整表列宽/内容换行。
 - 组内《论文必查清单》建议示意图 Arial，结果图 Times New Roman，字体清晰可读；遵守最终期刊字体与分辨率要求。
 - `booktabs` 三线表不要额外添加所有垂直边框；表格多页/双栏问题须从编译 PDF 实际确认。
+
+仅在投稿/定稿审查时，补查参考文献的题名、作者、年份、DOI、Early Access/正式刊出版本、期刊缩写与专有词大小写；需要更新出版状态时核对出版社原始记录。作者、单位、资助号与致谢以作者提供信息为准，不从参考模板复制。（必查清单 §5–6）
 
 ## 6. 检查脚本与人工复核分工
 

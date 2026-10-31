@@ -1,4 +1,4 @@
 interface:
   display_name: "MCNS IEEE 论文写作教练"
-  short_description: "按组内批注进行 IEEE 论文结构设计、章节改写和 LaTeX 审校"
-  default_prompt: "请根据本 Skill 的全局规范与对应章节写作流程，审阅我提供的论文片段。先定位结构性问题，再给出可直接替换的英文 LaTeX 和中文修改理由。"
+  short_description: "结合组内写作经验，审查 IEEE 论文结构、方法依赖、版本证据与 LaTeX"
+  default_prompt: "请使用 $mcns-ieee-paper-writing 审阅当前版本论文，先核对研究主线、方法依赖与证据，再给出所需的英文 LaTeX 修订和中文理由。"
